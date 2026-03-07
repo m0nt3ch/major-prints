@@ -1,0 +1,1389 @@
+      <!DOCTYPE html>
+      <!--
+        ============================================================
+        MAJOR PRINTS — Main Website
+        File: index.html
+        Description: Public-facing landing page for Major Prints,
+        a Fort Smith-based 3D printing business.
+        ============================================================
+      -->
+      <html lang="en">
+
+      <!-- ============================================================
+           HEAD SECTION
+           Contains metadata, SEO settings, font imports, and all CSS.
+           Nothing in this section is visible on the page itself.
+           ============================================================ -->
+      <head>
+
+        <!-- Prevents search engines from indexing this page -->
+        <!-- ⚠️ INCOMPLETE: Remove or update this tag on the public site.
+             noindex means Google will NOT list this page in search results.
+             Keep for d3sign-studi0.html, remove for index.html -->
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="robots" content="noindex, nofollow">
+            
+        <!-- Standard character encoding — always required -->
+        <meta charset="UTF-8" />
+
+        <!-- Makes the page scale correctly on phones and tablets -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- Browser tab title -->
+        <!-- ⚠️ INCOMPLETE: Update city name to match actual location -->
+        <title>Major Prints — 3D Printing & Design</title>
+
+        <!-- Google Fonts import:
+             Orbitron  = futuristic display font used for headings and labels
+             Exo 2     = clean body font used for paragraphs and descriptions -->
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+        <style>
+
+          /* ============================================================
+             CSS CUSTOM PROPERTIES (Variables)
+             Define the color palette and fonts used throughout the site.
+             Change a value here and it updates everywhere automatically.
+             ============================================================ */
+          :root {
+            --royal: #2251CC;           /* Primary blue — buttons, accents */
+            --indigo: #3D2DB5;          /* Deeper blue — button gradients */
+            --silver: #B8C5D6;          /* Muted text — descriptions, labels */
+            --silver-bright: #E2EAF4;   /* Bright text — headings, important content */
+            --dark: #080C18;            /* Darkest background — main page bg */
+            --dark-2: #0D1428;          /* Slightly lighter — alternating sections */
+            --dark-3: #111A35;          /* Cards, inputs, modals */
+            --accent: #4F8EF7;          /* Highlight blue — links, icons, hover states */
+            --glow: rgba(34, 81, 204, 0.5); /* Blue glow used in box-shadows */
+            --font-display: 'Orbitron', monospace;  /* Headings and UI labels */
+            --font-body: 'Exo 2', sans-serif;       /* Body text and form inputs */
+          }
+
+          /* ============================================================
+             GLOBAL RESET
+             Removes default browser spacing and sets border-box sizing
+             so padding doesn't unexpectedly expand element widths.
+             ============================================================ */
+          *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+          /* Enables smooth scrolling when clicking anchor links (e.g. #services) */
+          html { scroll-behavior: smooth; }
+
+          /* Base body styles — dark background, bright text, hide horizontal scroll */
+          body {
+            background: var(--dark);
+            color: var(--silver-bright);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+          }
+
+          /* ============================================================
+             GRID BACKGROUND
+             Creates the subtle blue grid lines visible behind all content.
+             Uses a pseudo-element (::before) so it sits behind everything.
+             fixed = stays in place while scrolling
+             pointer-events: none = can't accidentally click it
+             ============================================================ */
+          body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+              linear-gradient(rgba(34,81,204,0.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(34,81,204,0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+          }
+
+          /* ============================================================
+             NAVIGATION BAR
+             Fixed to top of screen. Semi-transparent with blur effect.
+             Contains: logo, nav links, and CTA button.
+             ============================================================ */
+          nav {
+            position: fixed;          /* Stays at top while scrolling */
+            top: 0; left: 0; right: 0;
+            z-index: 100;             /* Sits above all page content */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 4rem;
+            background: rgba(8,12,24,0.85);   /* Dark with slight transparency */
+            backdrop-filter: blur(12px);       /* Frosted glass blur effect */
+            border-bottom: 1px solid rgba(34,81,204,0.3);
+          }
+
+          /* Logo text styling in the nav */
+          .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            color: var(--silver-bright);
+            text-decoration: none;
+          }
+
+          /* The accent-colored dot or character in the logo */
+          .nav-logo span { color: var(--accent); }
+
+          /* Horizontal list of nav links (Services, Gallery, etc.) */
+          .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+          }
+
+          /* Individual nav link styling */
+          .nav-links a {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--silver);
+            text-decoration: none;
+            transition: color 0.2s;
+          }
+
+          .nav-links a:hover { color: var(--accent); }
+
+          /* "Place Order" call-to-action button in the nav
+             clip-path creates the angled/chamfered corner shape */
+          .nav-cta {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.6rem 1.4rem;
+            background: var(--royal);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+            transition: background 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+          }
+
+          .nav-cta:hover {
+            background: var(--accent);
+            box-shadow: 0 0 20px var(--glow);
+          }
+
+          /* ============================================================
+             HERO SECTION
+             Full-screen opening section with headline, subtext,
+             CTA buttons, and animated background orbs.
+             ============================================================ */
+          #hero {
+            position: relative;
+            min-height: 100vh;         /* Always fills the full screen height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;   /* Top padding accounts for fixed nav */
+            overflow: hidden;
+          }
+
+          /* Glowing orb decorations — purely visual, no content */
+          .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);        /* Heavy blur creates soft glow effect */
+            pointer-events: none;
+          }
+
+          /* Top-left large blue orb */
+          .hero-orb-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(34,81,204,0.35), transparent 70%);
+            top: -100px; left: -100px;
+            animation: orbFloat 8s ease-in-out infinite;
+          }
+
+          /* Bottom-right smaller indigo orb — animates in reverse */
+          .hero-orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(61,45,181,0.3), transparent 70%);
+            bottom: 0; right: -50px;
+            animation: orbFloat 10s ease-in-out infinite reverse;
+          }
+
+          /* Gentle floating animation for orbs */
+          @keyframes orbFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+          }
+
+          /* Wrapper for all hero text content — sits above orbs */
+          .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+          /* Small badge above the main title (e.g. "Fort Smith, AR — Local 3D Printing") */
+          .hero-badge {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid rgba(79,142,247,0.4);
+            padding: 0.4rem 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeSlideUp 0.8s ease both;
+          }
+
+          /* Main headline — scales responsively using clamp() */
+          .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 5.5rem); /* Min, preferred, max */
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: 0.05em;
+            color: var(--silver-bright);
+            animation: fadeSlideUp 0.8s 0.15s ease both; /* 0.15s delay */
+          }
+
+          /* Gradient text effect on highlighted word in headline */
+          .hero-title .highlight {
+            background: linear-gradient(135deg, var(--royal), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          /* Subtitle paragraph below headline */
+          .hero-sub {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--silver);
+            line-height: 1.7;
+            animation: fadeSlideUp 0.8s 0.3s ease both;
+          }
+
+          /* Row of CTA buttons */
+          .hero-actions {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeSlideUp 0.8s 0.45s ease both;
+          }
+
+          /* Primary filled button — used for main calls to action */
+          .btn-primary {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--royal), var(--indigo));
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 0 30px rgba(34,81,204,0.4);
+          }
+
+          .btn-primary:hover {
+            box-shadow: 0 0 50px rgba(34,81,204,0.7);
+            transform: translateY(-2px);  /* Subtle lift on hover */
+          }
+
+          /* Secondary outlined button — used for secondary actions */
+          .btn-secondary {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--silver-bright);
+            border: 1px solid rgba(184,197,214,0.3);
+            cursor: pointer;
+            clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+            transition: all 0.25s;
+            text-decoration: none;
+            display: inline-block;
+          }
+
+          .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+          }
+
+          /* Row of stat numbers (48hr, 100+, Local) below the buttons */
+          .hero-stats {
+            margin-top: 4rem;
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeSlideUp 0.8s 0.6s ease both;
+          }
+
+          .stat { text-align: center; }
+
+          /* Large number in each stat */
+          .stat-num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+          }
+
+          /* Label below each stat number */
+          .stat-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-top: 0.3rem;
+          }
+
+          /* Fade and slide up animation used on hero elements.
+             animation-fill-mode: both means it starts in the "from" state
+             even before the animation begins (useful for delayed animations) */
+          @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+
+          /* ============================================================
+             SHARED SECTION STYLES
+             Applied to all major content sections below the hero.
+             ============================================================ */
+          section { position: relative; z-index: 1; padding: 6rem 4rem; }
+
+          /* Small uppercase label above section titles (e.g. "// What We Do") */
+          .section-label {
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+          }
+
+          /* Main heading for each section */
+          .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--silver-bright);
+          }
+
+          /* Short horizontal gradient line below section titles */
+          .section-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--royal), var(--accent));
+            margin: 1.5rem 0 3rem;
+          }
+
+          /* ============================================================
+             SERVICES SECTION
+             Grid of service cards, each with icon, name, and description.
+             ============================================================ */
+          #services { background: var(--dark-2); }
+
+          /* Responsive grid — cards wrap to new rows on smaller screens */
+          .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+          }
+
+          /* Individual service card */
+          .service-card {
+            background: var(--dark-3);
+            border: 1px solid rgba(34,81,204,0.2);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+          }
+
+          /* Animated top border that reveals on hover using scaleX */
+          .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--royal), var(--accent));
+            transform: scaleX(0);       /* Hidden by default */
+            transition: transform 0.3s;
+          }
+
+          .service-card:hover { border-color: rgba(34,81,204,0.5); transform: translateY(-4px); }
+          .service-card:hover::before { transform: scaleX(1); } /* Reveal top border on hover */
+
+          .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+          .service-name {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--silver-bright);
+            margin-bottom: 0.8rem;
+          }
+
+          .service-desc { font-size: 0.9rem; color: var(--silver); line-height: 1.7; }
+
+          /* ============================================================
+             GALLERY SECTION
+             ⚠️ INCOMPLETE: All 5 gallery slots are placeholder images.
+             Replace .gallery-placeholder divs with real <img> tags
+             once actual print photos are available.
+             ============================================================ */
+          #gallery { background: var(--dark); }
+
+          /* Asymmetric 12-column grid layout for visual interest */
+          .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(2, 220px);
+            gap: 1rem;
+            margin-top: 3rem;
+          }
+
+          .gallery-item {
+            background: var(--dark-3);
+            border: 1px solid rgba(34,81,204,0.15);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          /* Layout rules — first item spans 2 rows and 5 columns (featured) */
+          .gallery-item:nth-child(1) { grid-column: span 5; grid-row: span 2; }
+          .gallery-item:nth-child(2) { grid-column: span 4; }
+          .gallery-item:nth-child(3) { grid-column: span 3; }
+          .gallery-item:nth-child(4) { grid-column: span 3; }
+          .gallery-item:nth-child(5) { grid-column: span 4; }
+
+          /* ⚠️ INCOMPLETE: Placeholder shown when no real photo is uploaded */
+          .gallery-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(184,197,214,0.3);
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+          }
+
+          .gallery-placeholder svg { opacity: 0.2; }
+          .gallery-item:hover .gallery-placeholder { color: rgba(79,142,247,0.5); }
+
+          /* ============================================================
+             ABOUT SECTION
+             Two-column layout: decorative visual on left, text on right.
+             ============================================================ */
+          #about {
+            background: var(--dark-2);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+          }
+
+          /* Container for the decorative stacked boxes visual */
+          .about-visual { position: relative; height: 400px; }
+
+          /* Shared styles for the decorative layered box elements */
+          .about-box {
+            position: absolute;
+            border: 1px solid rgba(34,81,204,0.3);
+            background: var(--dark-3);
+          }
+
+          /* Primary box fills the full visual area */
+          .about-box-1 { inset: 0; }
+
+          /* Secondary box offset to bottom-right for depth effect */
+          .about-box-2 {
+            width: 60%;
+            height: 60%;
+            bottom: -20px;
+            right: -20px;
+            border-color: rgba(79,142,247,0.2);
+            background: rgba(34,81,204,0.05);
+          }
+
+          /* Centered content inside the visual box (icon + tagline) */
+          .about-inner {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: var(--font-display);
+          }
+
+          .about-icon { font-size: 4rem; }
+
+          .about-tagline {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+          }
+
+          /* ⚠️ INCOMPLETE: Update About text with real bio/story for Major */
+          .about-text p {
+            font-size: 1rem;
+            color: var(--silver);
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+          }
+
+          .about-text strong { color: var(--silver-bright); }
+
+          /* ============================================================
+             ORDER FORM SECTION
+             ⚠️ INCOMPLETE: Form currently shows a fake success message.
+             Needs a real backend (e.g. Formspree, Netlify Forms, or
+             a custom API) to actually send order data via email.
+             ============================================================ */
+          #order { background: var(--dark); }
+
+          /* Centers and constrains the form width */
+          .order-container { max-width: 720px; margin: 3rem auto 0; }
+
+          /* Two-column form layout */
+          .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+          }
+
+          /* Stacks label above input */
+          .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+          /* Spans both columns — used for textarea and file link fields */
+          .form-group.full { grid-column: span 2; }
+
+          /* Form field label */
+          .form-group label {
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--silver);
+          }
+
+          /* Shared styles for all form inputs, dropdowns, and textareas */
+          .form-group input,
+          .form-group select,
+          .form-group textarea {
+            background: var(--dark-3);
+            border: 1px solid rgba(34,81,204,0.25);
+            color: var(--silver-bright);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            padding: 0.85rem 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none; /* Removes default browser styling on select */
+          }
+
+          /* Blue glow when a field is focused/active */
+          .form-group input:focus,
+          .form-group select:focus,
+          .form-group textarea:focus {
+            border-color: var(--royal);
+            box-shadow: 0 0 0 3px rgba(34,81,204,0.15);
+          }
+
+          .form-group select option { background: var(--dark-3); }
+          .form-group textarea { resize: vertical; min-height: 120px; }
+
+          /* Submit button for the order form */
+          .form-submit {
+            margin-top: 2rem;
+            width: 100%;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, var(--royal), var(--indigo));
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+            transition: all 0.25s;
+            box-shadow: 0 0 30px rgba(34,81,204,0.3);
+          }
+
+          .form-submit:hover {
+            box-shadow: 0 0 50px rgba(34,81,204,0.6);
+            transform: translateY(-2px);
+          }
+
+          /* ============================================================
+             FAQ SECTION
+             Accordion-style collapsible questions and answers.
+             ============================================================ */
+          #faq { background: var(--dark-2); }
+
+          /* Centered column container for all FAQ items */
+          .faq-list {
+            max-width: 760px;
+            margin: 3rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+          }
+
+          /* Individual FAQ card */
+          .faq-item {
+            border: 1px solid rgba(34,81,204,0.2);
+            background: var(--dark-3);
+            overflow: hidden;  /* Hides answer content when collapsed */
+          }
+
+          /* Clickable question row */
+          .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--silver-bright);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-align: left;
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
+          }
+
+          .faq-question:hover { color: var(--accent); }
+
+          /* + icon that rotates to × when open */
+          .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+            color: var(--accent);
+            flex-shrink: 0;
+            margin-left: 1rem;
+          }
+
+          /* Rotates icon 45deg when accordion is open (+ becomes ×) */
+          .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+          /* Answer text — hidden by default using max-height: 0 trick */
+          .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+            font-size: 0.95rem;
+            color: var(--silver);
+            line-height: 1.8;
+            padding: 0 1.5rem;
+          }
+
+          /* Expanded state — answer slides open */
+          .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.2rem;
+          }
+
+          /* ============================================================
+             CONTACT SECTION
+             Two columns: contact info on left, message form on right.
+             ⚠️ INCOMPLETE: Contact form does not send real emails.
+             Needs Formspree or similar service to be wired up.
+             ============================================================ */
+          #contact { background: var(--dark); }
+
+          .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+          }
+
+          /* Left column: stacked contact detail rows */
+          .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+
+          /* Single contact detail row (icon + label + value) */
+          .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+
+          .contact-item-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.2rem; }
+
+          /* Small uppercase label above each contact value */
+          .contact-item-label {
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+          }
+
+          .contact-item-value { font-size: 0.95rem; color: var(--silver-bright); }
+
+          /* Right column: simple contact form */
+          .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+          /* Shared input/textarea styles for contact form */
+          .contact-form input,
+          .contact-form textarea {
+            background: var(--dark-3);
+            border: 1px solid rgba(34,81,204,0.25);
+            color: var(--silver-bright);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            padding: 0.85rem 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+          }
+
+          .contact-form input:focus,
+          .contact-form textarea:focus {
+            border-color: var(--royal);
+            box-shadow: 0 0 0 3px rgba(34,81,204,0.15);
+          }
+
+          .contact-form textarea { resize: vertical; min-height: 100px; }
+
+          /* ============================================================
+             FOOTER
+             Simple two-column bar at the bottom: logo and copyright.
+             ============================================================ */
+          footer {
+            background: var(--dark-2);
+            border-top: 1px solid rgba(34,81,204,0.2);
+            padding: 2rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+          }
+
+          .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            color: var(--silver-bright);
+          }
+
+          .footer-logo span { color: var(--accent); }
+
+          /* ⚠️ INCOMPLETE: Update copyright year automatically or manually each year */
+          .footer-copy { font-size: 0.75rem; color: rgba(184,197,214,0.4); letter-spacing: 0.1em; }
+
+          /* ============================================================
+             SCROLL REVEAL ANIMATION
+             Elements with class "reveal" start invisible and slide up
+             into view when scrolled into the viewport.
+             JavaScript IntersectionObserver adds "visible" class.
+             ============================================================ */
+          .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+          }
+
+          .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+          /* ============================================================
+             RESPONSIVE STYLES
+             Adjusts layout for screens narrower than 900px (tablets/phones).
+             ============================================================ */
+          @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }         /* Hide nav links on mobile */
+            section { padding: 4rem 1.5rem; }
+            #about { grid-template-columns: 1fr; } /* Stack about section vertically */
+            .about-visual { height: 240px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+            .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; height: 160px; }
+
+            /* ⚠️ INCOMPLETE: No mobile hamburger menu implemented.
+               Nav links are simply hidden on mobile. A hamburger menu
+               button and drawer should be added for better UX. */
+          }
+
+        </style>
+      </head>
+      <body>
+
+      <!-- ============================================================
+           NAVIGATION BAR
+           Fixed header with logo, section links, and order CTA.
+           ============================================================ -->
+      <nav>
+        <!-- Logo — clicking returns to top of page -->
+        <!-- ⚠️ INCOMPLETE: Update the text between <span> tags to match final brand style -->
+        <a href="#hero" class="nav-logo">MAJOR<span>-(3D)-</span>PRINTS</a>
+
+        <!-- Internal anchor links to each section -->
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <!-- Primary CTA button in nav -->
+        <a href="#order" class="nav-cta">Place Order</a>
+      </nav>
+
+
+      <!-- ============================================================
+           HERO SECTION
+           Full-screen opening with animated orbs, headline, and stats.
+           ============================================================ -->
+      <section id="hero">
+
+        <!-- Decorative background orbs (purely visual) -->
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+
+        <div class="hero-content">
+
+          <!-- Location badge above headline -->
+          <!-- already correct -->
+          <div class="hero-badge">⬡ Fort Smith, AR — Local 3D Printing</div>
+
+          <!-- Main headline -->
+          <h1 class="hero-title">
+            PRECISION.<br/>
+            <span class="highlight">PRINTS.</span><br/>
+            DELIVERED.
+          </h1>
+
+          <!-- Supporting subtext -->
+          <p class="hero-sub">
+            Custom 3D printing for prototypes, home décor, replacement parts,<br/>
+            figurines, and anything your imagination demands.
+          </p>
+
+          <!-- Call-to-action buttons -->
+          <div class="hero-actions">
+            <a href="#order" class="btn-primary">Start Your Order</a>
+            <a href="#gallery" class="btn-secondary">View Gallery</a>
+          </div>
+
+          <!-- Quick stats row -->
+          <!-- ⚠️ INCOMPLETE: Update stats with real data as the business grows -->
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-num">48hr</div>
+              <div class="stat-label">Avg Turnaround</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">100+</div>
+              <div class="stat-label">Materials & Colors</div>
+            </div>
+            <div class="stat">
+              <!-- ⚠️ INCOMPLETE: Update city name -->
+              <div class="stat-num">Local</div>
+              <div class="stat-label">Fort Smith Delivery</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           SERVICES SECTION
+           Six service cards displayed in a responsive grid.
+           ============================================================ -->
+      <section id="services">
+        <div class="reveal">
+          <div class="section-label">// What We Do</div>
+          <h2 class="section-title">Services &amp; Capabilities</h2>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="services-grid">
+
+          <div class="service-card reveal">
+            <div class="service-icon">🔩</div>
+            <div class="service-name">Functional Prototypes</div>
+            <p class="service-desc">Bring your engineering ideas to life. We print functional parts with tight tolerances for testing and development.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">🧩</div>
+            <div class="service-name">Replacement Parts</div>
+            <p class="service-desc">Can't find the part you need? Send us the specs or a broken sample and we'll reproduce it.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">🏠</div>
+            <div class="service-name">Home Décor</div>
+            <p class="service-desc">Unique, custom-designed pieces for your space. Vases, wall art, organizers — designed to your taste.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">🎭</div>
+            <div class="service-name">Figurines &amp; Models</div>
+            <p class="service-desc">From gaming miniatures to custom character models — detailed, high-resolution prints that impress.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">🏷️</div>
+            <div class="service-name">Business Signage</div>
+            <p class="service-desc">Custom logos, name plates, and branded products for your business. Professional finish every time.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">✨</div>
+            <div class="service-name">Custom Orders</div>
+            <p class="service-desc">Have something unique in mind? Reach out — if it can be modeled, we can print it.</p>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           GALLERY SECTION
+           ⚠️ INCOMPLETE: All 5 slots contain placeholder graphics.
+           Replace each .gallery-placeholder div with:
+             <img src="path/to/your-photo.jpg" alt="Description" style="width:100%;height:100%;object-fit:cover;" />
+           ============================================================ -->
+      <section id="gallery">
+        <div class="reveal">
+          <div class="section-label">// Our Work</div>
+          <h2 class="section-title">Print Gallery</h2>
+          <div class="section-divider"></div>
+          <p style="color:var(--silver); max-width:560px;">A showcase of recent prints. Every job is unique — yours will be too.</p>
+        </div>
+
+        <div class="gallery-grid reveal">
+
+          <!-- Slot 1: Featured (large, spans 2 rows) — ⚠️ Replace with real photo -->
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Featured Print</span>
+            </div>
+          </div>
+
+          <!-- Slot 2 — ⚠️ Replace with real photo -->
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Prototype</span>
+            </div>
+          </div>
+
+          <!-- Slot 3 — ⚠️ Replace with real photo -->
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Figurine</span>
+            </div>
+          </div>
+
+          <!-- Slot 4 — ⚠️ Replace with real photo -->
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Décor</span>
+            </div>
+          </div>
+
+          <!-- Slot 5 — ⚠️ Replace with real photo -->
+          <div class="gallery-item">
+            <div class="gallery-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Custom Order</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ⚠️ INCOMPLETE: Remove this note once real photos are added -->
+        <p class="reveal" style="margin-top:1.5rem; font-size:0.8rem; color:rgba(184,197,214,0.4); font-family:var(--font-display); letter-spacing:0.1em;">
+          // Replace placeholders with real photos once available
+        </p>
+      </section>
+
+
+      <!-- ============================================================
+           ABOUT SECTION
+           Two-column layout: decorative graphic left, bio text right.
+           ⚠️ INCOMPLETE: Update bio text and city name.
+           ============================================================ -->
+      <section id="about">
+
+        <!-- Left: Decorative stacked boxes visual with icon -->
+        <div class="about-visual reveal">
+          <div class="about-box about-box-1"></div>  <!-- Background box -->
+          <div class="about-box about-box-2"></div>  <!-- Offset shadow box -->
+          <div class="about-inner">
+            <div class="about-icon">🖨️</div>
+            <!-- ⚠️ INCOMPLETE: Update city -->
+            <div class="about-tagline">Based in Fort Smith, AR</div>
+          </div>
+        </div>
+
+        <!-- Right: Bio text and CTA -->
+        <div class="about-text reveal">
+          <div class="section-label">// About</div>
+          <h2 class="section-title">Meet Major</h2>
+          <div class="section-divider"></div>
+
+          <!-- ⚠️ INCOMPLETE: Replace with Major's real story/bio -->
+          <p>
+            <strong>Major Prints</strong> is a Fort Smith-based 3D printing service built on a simple idea:
+            fast, quality prints delivered to your door — no corporate overhead, just craftsmanship.
+          </p>
+          <p>
+            Whether you need a one-off prototype, a replacement part you can't find anywhere,
+            or a custom piece that's uniquely yours, Major handles every order with personal attention
+            from start to finish.
+          </p>
+          <p>
+            <strong>Local delivery preferred</strong> — Fort Smith and surrounding areas.
+            Shipping available nationwide when needed.
+          </p>
+
+          <a href="#order" class="btn-primary" style="margin-top:1rem;">Get a Quote</a>
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           ORDER FORM SECTION
+           Collects customer info and project details for a quote.
+           ⚠️ INCOMPLETE: Form submission only shows a fake success message.
+           To actually receive orders by email, integrate with:
+             - Formspree (formspree.io) — easiest, just change the form action
+             - Netlify Forms — if hosting on Netlify
+             - A custom backend endpoint
+           ============================================================ -->
+      <section id="order">
+        <div class="reveal">
+          <div class="section-label">// Place an Order</div>
+          <h2 class="section-title">Start Your Print</h2>
+          <div class="section-divider"></div>
+          <p style="color:var(--silver); max-width:560px; margin-bottom:0;">
+            Fill out the form below and Major will follow up with a quote within 24 hours.
+          </p>
+        </div>
+
+        <div class="order-container">
+
+          <!-- Order form — onsubmit calls handleOrder() in JavaScript below -->
+          <form class="form-grid reveal" onsubmit="handleOrder(event)">
+
+            <!-- Customer name fields -->
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Doe" required />
+            </div>
+
+            <!-- Contact info -->
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="john@example.com" required />
+            </div>
+            <div class="form-group">
+              <label>Phone (optional)</label>
+              <input type="tel" placeholder="(479) 555-0000" />
+            </div>
+
+            <!-- Print type dropdown -->
+            <div class="form-group">
+              <label>Print Category</label>
+              <select required>
+                <option value="" disabled selected>Select a category</option>
+                <option>Functional Prototype</option>
+                <option>Replacement Part</option>
+                <option>Home Décor</option>
+                <option>Figurine / Model</option>
+                <option>Business Signage</option>
+                <option>Gaming Miniature</option>
+                <option>Custom Order</option>
+              </select>
+            </div>
+
+            <!-- Delivery method -->
+            <!-- ⚠️ INCOMPLETE: Update city name in first option -->
+            <div class="form-group">
+              <label>Delivery Preference</label>
+              <select>
+                <option>Local Delivery (Fort Smith area)</option>
+                <option>Shipping</option>
+                <option>Pickup</option>
+              </select>
+            </div>
+
+            <!-- Full-width project description textarea -->
+            <div class="form-group full">
+              <label>Project Description</label>
+              <textarea placeholder="Describe what you need — dimensions, material preferences, color, quantity, intended use, etc." required></textarea>
+            </div>
+
+            <!-- Optional STL/design file link -->
+            <div class="form-group full">
+              <label>File Link (optional)</label>
+              <input type="url" placeholder="Google Drive, Dropbox, or STL file link" />
+            </div>
+
+            <!-- Submit button -->
+            <div class="form-group full">
+              <button type="submit" class="form-submit">Submit Order Request →</button>
+            </div>
+
+          </form>
+
+          <!-- ⚠️ INCOMPLETE: This success message is purely visual/fake.
+               No email is actually sent. Wire up a real form backend. -->
+          <div id="order-success" style="display:none; text-align:center; padding:3rem; border:1px solid rgba(34,81,204,0.3); background:var(--dark-3); margin-top:1rem;">
+            <div style="font-size:2.5rem; margin-bottom:1rem;">✅</div>
+            <div style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.1em; color:var(--silver-bright); margin-bottom:0.5rem;">ORDER REQUEST RECEIVED</div>
+            <p style="color:var(--silver); font-size:0.9rem;">Major will follow up within 24 hours with a quote.</p>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           FAQ SECTION
+           Accordion-style list of common questions.
+           Clicking a question expands/collapses the answer.
+           ⚠️ INCOMPLETE: Add/update questions as real customer
+           questions come in over time.
+           ============================================================ -->
+      <section id="faq">
+        <div class="reveal">
+          <div class="section-label">// Common Questions</div>
+          <h2 class="section-title">FAQ</h2>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="faq-list">
+
+          <div class="faq-item reveal">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              What file formats do you accept?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">We accept STL, OBJ, 3MF, and STEP files. If you don't have a file, describe what you need and we can discuss design assistance or recommend a designer.</div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              How long does a print take?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Most orders are completed within 24–72 hours depending on size and complexity. Rush orders may be available — just ask when submitting your request.</div>
+          </div>
+
+          <!-- ⚠️ INCOMPLETE: Update city name -->
+          <div class="faq-item reveal">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              Do you deliver outside Fort Smith?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Local delivery is preferred for Fort Smith and the surrounding area. We also ship nationwide — shipping costs are calculated based on size and destination and will be included in your quote.</div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              What materials are available?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">We primarily print in PLA, PETG, and TPU in a wide range of colors. Specialty materials like ABS, ASA, or resin may be available depending on the project — mention your requirements in the order form.</div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              How is pricing determined?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">Pricing is based on material usage, print time, and complexity. Submit your order request and you'll receive a detailed quote within 24 hours — no commitment required.</div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           CONTACT SECTION
+           Left: contact details. Right: simple message form.
+           ⚠️ INCOMPLETE: Contact form does not send real emails.
+           Same fix needed as order form — wire up Formspree or similar.
+           ============================================================ -->
+      <section id="contact">
+        <div class="reveal">
+          <div class="section-label">// Get In Touch</div>
+          <h2 class="section-title">Contact</h2>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="contact-grid">
+
+          <!-- Left column: contact detail items -->
+          <div class="contact-info reveal">
+
+            <!-- ⚠️ INCOMPLETE: Update city -->
+            <div class="contact-item">
+              <div class="contact-item-icon">📍</div>
+              <div>
+                <div class="contact-item-label">Location</div>
+                <div class="contact-item-value">Fort Smith, Arkansas</div>
+              </div>
+            </div>
+
+            <!-- Email with mailto link -->
+            <div class="contact-item">
+              <div class="contact-item-icon">📧</div>
+              <div>
+                <div class="contact-item-label">Email</div>
+                <div class="contact-item-value">
+                  <a href="/cdn-cgi/l/email-protection#2048454c4c4f604d414a4f520d5052494e54530e434f4d" style="color:var(--silver-bright); text-decoration:none;">
+                    <span class="__cf_email__" data-cfemail="177f727b7b78577a767d78653a67657e7963643974787a">[email&#160;protected]</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-item-icon">🚚</div>
+              <div>
+                <div class="contact-item-label">Delivery</div>
+                <div class="contact-item-value">Local preferred · Shipping available</div>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-item-icon">⏱️</div>
+              <div>
+                <div class="contact-item-label">Response Time</div>
+                <div class="contact-item-value">Within 24 hours</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right column: contact message form -->
+          <div class="reveal">
+            <!-- ⚠️ INCOMPLETE: Needs real form backend to send emails -->
+            <form class="contact-form" onsubmit="handleContact(event)">
+              <input type="text" placeholder="Your name" required />
+              <input type="email" placeholder="Your email" required />
+              <textarea placeholder="Your message..." required></textarea>
+              <button type="submit" class="form-submit">Send Message →</button>
+            </form>
+
+            <!-- ⚠️ INCOMPLETE: Fake success message — no email is actually sent -->
+            <div id="contact-success" style="display:none; text-align:center; padding:2rem; border:1px solid rgba(34,81,204,0.3); background:var(--dark-3); margin-top:1rem;">
+              <div style="font-family:var(--font-display); font-size:0.85rem; letter-spacing:0.1em; color:var(--accent);">MESSAGE SENT ✓</div>
+              <p style="color:var(--silver); font-size:0.85rem; margin-top:0.5rem;">We'll be in touch within 24 hours.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           FOOTER
+           Simple branded bar at the bottom of the page.
+           ============================================================ -->
+      <footer>
+        <div class="footer-logo">MAJOR<span>.</span>PRINTS</div>
+        <!-- ⚠️ INCOMPLETE: Update city name -->
+        <div class="footer-copy">© 2026 Major Prints — Fort Smith, AR</div>
+      </footer>
+
+
+      <!-- ============================================================
+           JAVASCRIPT
+           All interactive behavior for the page.
+           ============================================================ -->
+      <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+        /* ── SCROLL REVEAL ──────────────────────────────────────────
+           Uses IntersectionObserver to watch all elements with class
+           "reveal". When they scroll into view, adds class "visible"
+           which triggers the CSS fade-slide-up animation.
+           The staggered setTimeout(i * 80ms) staggers multiple elements
+           that enter the viewport at the same time.
+        ────────────────────────────────────────────────────────────── */
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => e.target.classList.add('visible'), i * 80);
+              observer.unobserve(e.target); // Stop watching once visible
+            }
+          });
+        }, { threshold: 0.1 }); // Trigger when 10% of element is visible
+        reveals.forEach(el => observer.observe(el));
+
+
+        /* ── FAQ ACCORDION ──────────────────────────────────────────
+           Handles opening and closing FAQ items when clicked.
+           Only one item can be open at a time — clicking an open
+           item closes it; clicking a different one closes all others
+           and opens the clicked one.
+        ────────────────────────────────────────────────────────────── */
+        function toggleFaq(btn) {
+          const item = btn.closest('.faq-item');      // Get parent faq-item
+          const isOpen = item.classList.contains('open');
+          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open')); // Close all
+          if (!isOpen) item.classList.add('open');    // Open clicked one if it was closed
+        }
+
+
+        /* ── ORDER FORM SUBMISSION ──────────────────────────────────
+           ⚠️ INCOMPLETE: Currently just hides the form and shows a
+           success message. Does NOT send any data anywhere.
+           To fix: replace this function with a real fetch() POST to
+           Formspree or your backend, then show success on response.
+        ────────────────────────────────────────────────────────────── */
+        function handleOrder(e) {
+          e.preventDefault();                                        // Prevent page reload
+          e.target.style.display = 'none';                          // Hide the form
+          document.getElementById('order-success').style.display = 'block'; // Show success message
+        }
+
+
+        /* ── CONTACT FORM SUBMISSION ────────────────────────────────
+           ⚠️ INCOMPLETE: Same issue as order form above.
+           No data is sent — only a visual success state is shown.
+        ─────────────────────────────────────────────
